@@ -130,27 +130,14 @@ REACT_APP_API_URL=http://localhost:5001
   - **Task Management:** After logging in, you can view your list of tasks, create new tasks, edit existing tasks (including marking them complete or updating details), and delete tasks.
 
 - **Demo Video:**
-  Record a short screen capture demonstrating:
-  - Registering a new user
-  - Logging in
-  - Creating a new task
-  - Editing a task (e.g., updating title or description)
-  - Deleting a task
-
-  Place the video on a hosting platform (YouTube, Vimeo, etc.) and include the link in this README or in a separate `.md` file (e.g., `DEMO.md`).
+  https://youtu.be/6TylVMLYknI
 
 ---
 
 ## Salary Expectations
 
-Please include your monthly salary expectations in your submission. Update this section with your expected range.
+My expected monthly salary is in the range of $3500 - $4500.
 
-Example:
-
-```markdown
-**Salary Expectations:**
-My expected monthly salary is in the range of $X,XXX - $X,XXX.
-```
 
 ---
 
