@@ -1,119 +1,169 @@
-# Full-Stack Coding Challenge
+# Task Management Application
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
+This repository contains a Task Management application built with:
 
----
+- **Backend:** Node.js, Express, TypeScript, Sequelize (with sequelize-typescript), PostgreSQL
+- **Frontend:** React, TypeScript, Axios, React Router (v6)
 
-## Overview
+The application supports user registration, login (using JWT authentication), and basic CRUD operations for tasks (create, read, update, delete). Tasks are linked to the authenticated user.
 
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
+## Table of Contents
 
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
-
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
-
----
-
-## Requirements
-
-### 1. Authentication
-
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
-
-### 2. Backend (Node.js or Nest.js)
-
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
-
-### 3. Frontend (React + TypeScript)
-
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+- [Prerequisites](#prerequisites)
+- [Backend Setup](#backend-setup)
+  - [Environment Variables](#environment-variables-for-backend)
+  - [Database Setup](#database-setup)
+  - [Running the Backend](#running-the-backend)
+- [Frontend Setup](#frontend-setup)
+  - [Environment Variables](#environment-variables-for-frontend)
+  - [Running the Frontend](#running-the-frontend)
+- [Testing and Demo](#testing-and-demo)
+- [Salary Expectations](#salary-expectations)
+- [Additional Notes](#additional-notes)
 
 ---
 
-## Deliverables
+## Prerequisites
 
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
-
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
+- **Node.js** (v14+ recommended) and **npm**
+- **PostgreSQL** installed and running on your machine
+- (Optional) **Git** for version control
 
 ---
 
-## Evaluation Criteria
+## Backend Setup
 
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
+### Environment Variables for Backend
 
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
+Create a `.env` file in the backend root with the following content:
 
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
+```dotenv
+PORT=5001
+DATABASE_URL=postgres://postgres:mysecret@localhost:5432/taskmanager
+JWT_SECRET=your_very_secure_random_secret_here
+```
 
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
+- **PORT:** Port on which the backend server will run (default: 5001)
+- **DATABASE_URL:** Connection string for your PostgreSQL database. Replace `postgres` and `mysecret` with your actual database username and password.
+- **JWT_SECRET:** A secure, unpredictable string used for signing JWT tokens. You can generate one using Node's `crypto` module:
+  ```bash
+  node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+  ```
 
-Good luck, and we look forward to your submission!
+### Database Setup
+
+1. **Create the Database:**
+   Make sure PostgreSQL is running and create a database named `taskmanager` (or modify the name in the connection string accordingly).
+
+   ```bash
+   createdb taskmanager
+   ```
+
+2. **Sequelize Models & Migrations:**
+   The application uses `sequelize-typescript` and automatically syncs the models on startup. Ensure your models (User, Task, etc.) are registered in `src/models/index.ts`.
+
+### Running the Backend
+
+1. Navigate to the backend directory:
+
+   ```bash
+   cd backend
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Run the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+   This will start the server using `ts-node-dev`. The server will automatically sync the database models (creating or updating tables as needed).
+
+---
+
+## Frontend Setup
+
+### Environment Variables for Frontend
+
+Create a `.env` file in the frontend folder with the following content:
+
+```dotenv
+REACT_APP_API_URL=http://localhost:5001
+```
+
+- **REACT_APP_API_URL:** Base URL for your backend API. Adjust if your backend runs on a different port or domain.
+
+### Running the Frontend
+
+1. Navigate to the frontend directory:
+
+   ```bash
+   cd frontend
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm start
+   ```
+
+   The React app will run (typically on port 3000) and should be able to communicate with your backend.
+
+---
+
+## Testing and Demo
+
+- **User Flow:**
+  - **Registration:** Create a new user.
+  - **Login:** Log in with the registered credentials to receive a JWT token.
+  - **Task Management:** After logging in, you can view your list of tasks, create new tasks, edit existing tasks (including marking them complete or updating details), and delete tasks.
+
+- **Demo Video:**
+  Record a short screen capture demonstrating:
+  - Registering a new user
+  - Logging in
+  - Creating a new task
+  - Editing a task (e.g., updating title or description)
+  - Deleting a task
+
+  Place the video on a hosting platform (YouTube, Vimeo, etc.) and include the link in this README or in a separate `.md` file (e.g., `DEMO.md`).
+
+---
+
+## Salary Expectations
+
+Please include your monthly salary expectations in your submission. Update this section with your expected range.
+
+Example:
+
+```markdown
+**Salary Expectations:**
+My expected monthly salary is in the range of $X,XXX - $X,XXX.
+```
+
+---
+
+## Additional Notes
+
+- **Version Control:**  
+  This project is maintained in Git. Ensure you commit changes frequently and push your commits to your fork on GitHub (or your chosen platform).
+
+- **Backend Code Structure:**  
+  The backend uses Express with controllers, routes, and middleware (including JWT-based authentication). Models are defined using `sequelize-typescript`.
+
+- **Frontend Code Structure:**  
+  The frontend uses React with TypeScript. Routing is handled via React Router v6, and Axios is used for API calls. The application stores the JWT in localStorage.
+
+- **Security:**  
+  Make sure to replace placeholder values (like `JWT_SECRET`) with secure values before deploying to production.
