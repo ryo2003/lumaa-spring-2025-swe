@@ -139,9 +139,6 @@ My expected monthly salary is in the range of $3500 - $4500.
 
 ## Additional Notes
 
-- **Version Control:**  
-  This project is maintained in Git. Ensure you commit changes frequently and push your commits to your fork on GitHub (or your chosen platform).
-
 - **Backend Code Structure:**  
   The backend uses Express with controllers, routes, and middleware (including JWT-based authentication). Models are defined using `sequelize-typescript`.
 
