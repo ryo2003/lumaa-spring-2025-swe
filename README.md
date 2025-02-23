@@ -122,14 +122,10 @@ REACT_APP_API_URL=http://localhost:5001
 
 ---
 
-## Testing and Demo
+## Testing and Demo Video
 
-- **User Flow:**
-  - **Registration:** Create a new user.
-  - **Login:** Log in with the registered credentials to receive a JWT token.
-  - **Task Management:** After logging in, you can view your list of tasks, create new tasks, edit existing tasks (including marking them complete or updating details), and delete tasks.
 
-- **Demo Video:**
+- **Demo Video Link:**
   https://youtu.be/6TylVMLYknI
 
 ---
